@@ -3,194 +3,1988 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lodge App</title>
+<title>Lodge Portal</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
 }
 
-body {
-  background: #090909;
-  color: white;
+:root{
+  --gold:#d4af37;
+  --bg:#080808;
+  --panel:#151515;
+  --card:#202020;
+  --border:#303030;
+  --muted:#999;
+  --danger:#d9534f;
+  --success:#55b96b;
 }
 
-.app {
-  max-width: 500px;
-  min-height: 100vh;
-  margin: auto;
-  background: #151515;
-  padding-bottom: 80px;
+body{
+  background:var(--bg);
+  color:#fff;
+  min-height:100vh;
 }
 
-header {
-  background: #0b0b0b;
-  padding: 22px 20px;
-  border-bottom: 1px solid #292929;
+button,input,textarea,select{
+  font:inherit;
 }
 
-header h1 {
-  font-size: 25px;
+button{
+  cursor:pointer;
 }
 
-header p {
-  color: #999;
-  margin-top: 5px;
+.hidden{
+  display:none!important;
 }
 
-.page {
-  display: none;
-  padding: 20px;
+/* LOGIN */
+
+#loginScreen{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at top,#29230e,#080808 55%);
 }
 
-.page.active {
-  display: block;
+.login-box{
+  width:100%;
+  max-width:430px;
+  background:#141414;
+  border:1px solid #333;
+  border-radius:24px;
+  padding:30px 22px;
+  box-shadow:0 15px 50px #000;
 }
 
-.welcome {
-  background: linear-gradient(135deg, #242424, #111);
-  padding: 25px;
-  border-radius: 18px;
-  margin-bottom: 20px;
+.logo{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  margin:0 auto 18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#242424;
+  border:2px solid var(--gold);
+  font-size:38px;
 }
 
-.welcome h2 {
-  margin-bottom: 8px;
+.login-box h1{
+  text-align:center;
+  margin-bottom:7px;
 }
 
-.welcome p {
-  color: #aaa;
-  line-height: 1.5;
+.subtitle{
+  color:var(--muted);
+  text-align:center;
+  margin-bottom:25px;
 }
 
-.section-title {
-  margin: 20px 0 12px;
-  font-size: 19px;
+.field{
+  margin-bottom:15px;
 }
 
-.card {
-  background: #222;
-  border: 1px solid #303030;
-  padding: 18px;
-  border-radius: 15px;
-  margin-bottom: 12px;
+.field label{
+  display:block;
+  color:#bbb;
+  font-size:13px;
+  margin-bottom:7px;
 }
 
-.card h3 {
-  margin-bottom: 7px;
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  padding:14px;
+  background:#0d0d0d;
+  color:#fff;
+  border:1px solid #353535;
+  border-radius:12px;
+  outline:none;
 }
 
-.card p {
-  color: #aaa;
-  line-height: 1.4;
+.field input:focus,
+.field textarea:focus,
+.field select:focus{
+  border-color:var(--gold);
 }
 
-button {
-  border: 0;
-  border-radius: 10px;
-  padding: 12px 18px;
-  margin-top: 15px;
-  background: #d4af37;
-  color: #111;
-  font-weight: bold;
+.primary{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  background:var(--gold);
+  color:#111;
+  font-weight:bold;
+  margin-top:5px;
 }
 
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 500px;
-  height: 70px;
-  background: #101010;
-  border-top: 1px solid #303030;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+.demo-note{
+  text-align:center;
+  color:#777;
+  font-size:12px;
+  margin-top:15px;
 }
 
-.nav-button {
-  background: none;
-  color: #888;
-  padding: 5px;
-  margin: 0;
-  font-size: 12px;
+/* APP */
+
+#app{
+  max-width:500px;
+  min-height:100vh;
+  margin:auto;
+  background:#111;
+  padding-bottom:90px;
 }
 
-.nav-button.active {
-  color: #d4af37;
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#0b0b0b;
+  border-bottom:1px solid var(--border);
+  padding:16px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
-.icon {
-  display: block;
-  font-size: 22px;
-  margin-bottom: 3px;
+.topbar-title{
+  font-size:20px;
+  font-weight:bold;
 }
 
-.profile {
-  text-align: center;
-  padding: 25px 10px;
+.topbar small{
+  display:block;
+  color:#888;
+  margin-top:3px;
 }
 
-.avatar {
-  width: 85px;
-  height: 85px;
-  border-radius: 50%;
-  background: #333;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
+.icon-btn{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  border:1px solid #333;
+  background:#191919;
+  color:#fff;
+  position:relative;
 }
 
-.info {
-  background: #222;
-  padding: 18px;
-  border-radius: 15px;
-  margin-top: 20px;
-  text-align: left;
+.badge{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+  min-width:18px;
+  height:18px;
+  border-radius:20px;
+  background:#d9534f;
+  color:white;
+  font-size:10px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-.info p {
-  padding: 9px 0;
-  border-bottom: 1px solid #333;
+.page{
+  display:none;
+  padding:18px;
+}
+
+.page.active{
+  display:block;
+}
+
+/* DASHBOARD */
+
+.hero{
+  background:linear-gradient(135deg,#29240f,#151515 65%);
+  border:1px solid #4c4019;
+  border-radius:22px;
+  padding:22px;
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:24px;
+  margin-bottom:8px;
+}
+
+.hero p{
+  color:#aaa;
+  line-height:1.5;
+}
+
+.member-tag{
+  display:inline-block;
+  margin-top:15px;
+  padding:7px 11px;
+  background:#332b10;
+  color:var(--gold);
+  border-radius:20px;
+  font-size:12px;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:22px 0 12px;
+}
+
+.section-title h2{
+  font-size:18px;
+}
+
+.section-title button{
+  background:none;
+  border:0;
+  color:var(--gold);
+  font-size:13px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:17px;
+}
+
+.stat-icon{
+  font-size:24px;
+}
+
+.stat strong{
+  display:block;
+  font-size:23px;
+  margin-top:9px;
+}
+
+.stat span{
+  color:#888;
+  font-size:12px;
+}
+
+/* CARDS */
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:17px;
+  margin-bottom:12px;
+}
+
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.card h3{
+  font-size:16px;
+  margin-bottom:7px;
+}
+
+.card p{
+  color:#aaa;
+  line-height:1.45;
+  font-size:14px;
+}
+
+.date{
+  color:var(--gold)!important;
+  font-weight:bold;
+  margin:7px 0;
+}
+
+.status{
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  white-space:nowrap;
+  height:max-content;
+}
+
+.status.green{
+  background:#14301b;
+  color:#6ed486;
+}
+
+.status.gold{
+  background:#352c0e;
+  color:var(--gold);
+}
+
+.status.red{
+  background:#351313;
+  color:#e77773;
+}
+
+.action{
+  border:0;
+  border-radius:9px;
+  padding:9px 13px;
+  background:var(--gold);
+  color:#111;
+  font-weight:bold;
+  margin-top:12px;
+}
+
+.action.secondary{
+  background:#333;
+  color:#fff;
+}
+
+/* QUICK ACTIONS */
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.quick{
+  background:#1d1d1d;
+  border:1px solid #303030;
+  border-radius:15px;
+  padding:17px 12px;
+  color:#fff;
+  text-align:left;
+}
+
+.quick span{
+  display:block;
+  font-size:25px;
+  margin-bottom:8px;
+}
+
+.quick small{
+  color:#999;
+}
+
+/* SEARCH */
+
+.search{
+  width:100%;
+  padding:13px;
+  background:#181818;
+  color:#fff;
+  border:1px solid #333;
+  border-radius:12px;
+  outline:none;
+  margin-bottom:14px;
+}
+
+/* MEMBER */
+
+.member{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.avatar{
+  width:48px;
+  height:48px;
+  min-width:48px;
+  border-radius:50%;
+  background:#333;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  border:1px solid #444;
+}
+
+.member-info{
+  flex:1;
+}
+
+.member-info strong{
+  display:block;
+}
+
+.member-info span{
+  color:#888;
+  font-size:12px;
+}
+
+/* PROFILE */
+
+.profile-head{
+  text-align:center;
+  padding:15px 0 22px;
+}
+
+.profile-avatar{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:#292929;
+  border:2px solid var(--gold);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  margin:auto;
+}
+
+.profile-head h2{
+  margin-top:12px;
+}
+
+.profile-head p{
+  color:#888;
+  margin-top:5px;
+}
+
+.info-row{
+  padding:14px 0;
+  border-bottom:1px solid #333;
+}
+
+.info-row:last-child{
+  border-bottom:0;
+}
+
+.info-row span{
+  color:#888;
+  display:block;
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+/* NOTIFICATIONS */
+
+.notification{
+  display:flex;
+  gap:12px;
+}
+
+.notification-icon{
+  width:42px;
+  height:42px;
+  min-width:42px;
+  border-radius:12px;
+  background:#30270d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ADMIN */
+
+.admin-box{
+  border:1px solid #564716;
+  background:#201b0d;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+  position:fixed;
+  z-index:30;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:500px;
+  height:72px;
+  background:#0d0d0d;
+  border-top:1px solid #303030;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+
+.nav-btn{
+  background:none;
+  border:0;
+  color:#777;
+  font-size:11px;
+  padding:5px 10px;
+}
+
+.nav-btn .nav-icon{
+  display:block;
+  font-size:22px;
+  margin-bottom:3px;
+}
+
+.nav-btn.active{
+  color:var(--gold);
+}
+
+/* TOAST */
+
+#toast{
+  position:fixed;
+  z-index:100;
+  left:50%;
+  bottom:88px;
+  transform:translateX(-50%) translateY(20px);
+  background:#292929;
+  border:1px solid #444;
+  color:#fff;
+  padding:12px 17px;
+  border-radius:12px;
+  font-size:13px;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  max-width:90%;
+  text-align:center;
+}
+
+#toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  z-index:80;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:100%;
+  max-width:500px;
+  background:#181818;
+  border-radius:22px 22px 0 0;
+  padding:22px;
+  max-height:85vh;
+  overflow:auto;
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.close{
+  border:0;
+  background:#292929;
+  color:#fff;
+  width:35px;
+  height:35px;
+  border-radius:10px;
+}
+
+.empty{
+  text-align:center;
+  padding:35px 10px;
+  color:#777;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<!-- LOGIN -->
+<div id="loginScreen">
 
-<header>
-  <h1>🏛️ Lodge App</h1>
-  <p>Member Portal</p>
-</header>
+  <div class="login-box">
 
-<!-- HOME -->
-<section id="home" class="page active">
+    <div class="logo">🏛️</div>
 
-  <div class="welcome">
-    <h2>Welcome 👋</h2>
-    <p>
-      Welcome to your lodge member portal.
-      Stay connected with members, meetings and announcements.
+    <h1>Lodge Portal</h1>
+    <p class="subtitle">Secure Member Access</p>
+
+    <div class="field">
+      <label>Member ID</label>
+      <input id="loginId" type="text" placeholder="Enter member ID">
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <input id="loginPassword" type="password" placeholder="Enter password">
+    </div>
+
+    <button class="primary" onclick="login()">
+      Sign In
+    </button>
+
+    <p class="demo-note">
+      Demo login: <b>MEM001</b> / <b>1234</b>
     </p>
+
   </div>
 
-  <h2 class="section-title">Quick Access</h2>
+</div>
 
-  <div class="card">
-    <h3>📅 Upcoming Meeting</h3>
-    <p>Check the latest lodge meeting schedule.</p>
-    <button onclick="showPage('events')">View Events</button>
+
+<!-- APP -->
+<div id="app" class="hidden">
+
+  <header class="topbar">
+
+    <div>
+      <div class="topbar-title" id="pageTitle">
+        Dashboard
+      </div>
+      <small>Member Portal</small>
+    </div>
+
+    <button class="icon-btn" onclick="showPage('notifications')">
+      🔔
+      <span class="badge" id="notificationBadge">3</span>
+    </button>
+
+  </header>
+
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="page active">
+
+    <div class="hero">
+
+      <h1 id="welcomeName">
+        Welcome 👋
+      </h1>
+
+      <p>
+        Stay connected with your lodge,
+        members, meetings and announcements.
+      </p>
+
+      <span class="member-tag">
+        ✓ Active Member
+      </span>
+
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+        <span class="stat-icon">👥</span>
+        <strong id="memberCount">24</strong>
+        <span>Members</span>
+      </div>
+
+      <div class="stat">
+        <span class="stat-icon">📅</span>
+        <strong id="eventCount">3</strong>
+        <span>Upcoming Events</span>
+      </div>
+
+      <div class="stat">
+        <span class="stat-icon">📢</span>
+        <strong id="announcementCount">4</strong>
+        <span>Announcements</span>
+      </div>
+
+      <div class="stat">
+        <span class="stat-icon">💰</span>
+        <strong>KSh 2,500</strong>
+        <span>Annual Dues</span>
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+      <h2>Quick Actions</h2>
+    </div>
+
+    <div class="quick-grid">
+
+      <button class="quick" onclick="showPage('events')">
+        <span>📅</span>
+        Meetings
+        <small>View upcoming events</small>
+      </button>
+
+      <button class="quick" onclick="showPage('members')">
+        <span>👥</span>
+        Members
+        <small>Member directory</small>
+      </button>
+
+      <button class="quick" onclick="showPage('announcements')">
+        <span>📢</span>
+        Announcements
+        <small>Latest lodge news</small>
+      </button>
+
+      <button class="quick" onclick="showPage('payments')">
+        <span>💰</span>
+        Payments
+        <small>View dues status</small>
+      </button>
+
+    </div>
+
+
+    <div class="section-title">
+      <h2>Next Meeting</h2>
+      <button onclick="showPage('events')">
+        View all
+      </button>
+    </div>
+
+    <div class="card">
+
+      <div class="card-header">
+        <div>
+          <h3>🏛️ Regular Lodge Meeting</h3>
+          <p class="date">Friday • 7:00 PM</p>
+        </div>
+
+        <span class="status gold">Upcoming</span>
+      </div>
+
+      <p>
+        Monthly lodge meeting. Members are
+        encouraged to attend.
+      </p>
+
+      <button class="action" onclick="rsvp()">
+        RSVP
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- EVENTS -->
+  <section id="events" class="page">
+
+    <div class="section-title">
+      <h2>📅 Events & Meetings</h2>
+      <button onclick="openEventModal()">
+        + Add
+      </button>
+    </div>
+
+    <div id="eventsList"></div>
+
+  </section>
+
+
+  <!-- MEMBERS -->
+  <section id="members" class="page">
+
+    <div class="section-title">
+      <h2>👥 Members</h2>
+    </div>
+
+    <input
+      class="search"
+      id="memberSearch"
+      placeholder="Search members..."
+      oninput="searchMembers()"
+    >
+
+    <div id="membersList"></div>
+
+  </section>
+
+
+  <!-- ANNOUNCEMENTS -->
+  <section id="announcements" class="page">
+
+    <div class="section-title">
+      <h2>📢 Announcements</h2>
+      <button onclick="openAnnouncementModal()">
+        + New
+      </button>
+    </div>
+
+    <div id="announcementsList"></div>
+
+  </section>
+
+
+  <!-- PAYMENTS -->
+  <section id="payments" class="page">
+
+    <div class="section-title">
+      <h2>💰 Payments</h2>
+    </div>
+
+    <div class="card">
+
+      <div class="card-header">
+        <div>
+          <h3>Annual Membership Dues</h3>
+          <p>KSh 2,500</p>
+        </div>
+
+        <span class="status green">
+          Paid
+        </span>
+      </div>
+
+      <p class="date">
+        Payment recorded
+      </p>
+
+      <button class="action" onclick="makePayment()">
+        Make Payment
+      </button>
+
+    </div>
+
+    <div class="card">
+
+      <h3>Payment History</h3>
+
+      <div class="info-row">
+        <span>Annual Dues</span>
+        KSh 2,500 — Paid
+      </div>
+
+      <div class="info-row">
+        <span>Building Fund</span>
+        KSh 1,000 — Paid
+      </div>
+
+      <div class="info-row">
+        <span>Event Contribution</span>
+        KSh 500 — Paid
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- NOTIFICATIONS -->
+  <section id="notifications" class="page">
+
+    <div class="section-title">
+      <h2>🔔 Notifications</h2>
+      <button onclick="clearNotifications()">
+        Clear
+      </button>
+    </div>
+
+    <div id="notificationsList">
+
+      <div class="card notification">
+        <div class="notification-icon">📅</div>
+        <div>
+          <h3>Meeting Reminder</h3>
+          <p>
+            Your regular lodge meeting is coming up.
+          </p>
+        </div>
+      </div>
+
+      <div class="card notification">
+        <div class="notification-icon">📢</div>
+        <div>
+          <h3>New Announcement</h3>
+          <p>
+            A new lodge announcement has been posted.
+          </p>
+        </div>
+      </div>
+
+      <div class="card notification">
+        <div class="notification-icon">💰</div>
+        <div>
+          <h3>Payment Status</h3>
+          <p>
+            Your membership dues are currently paid.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROFILE -->
+  <section id="profile" class="page">
+
+    <div class="profile-head">
+
+      <div class="profile-avatar">
+        👤
+      </div>
+
+      <h2 id="profileName">
+        Lodge Member
+      </h2>
+
+      <p id="profileRole">
+        Member
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="info-row">
+        <span>Member ID</span>
+        MEM001
+      </div>
+
+      <div class="info-row">
+        <span>Membership</span>
+        Active
+      </div>
+
+      <div class="info-row">
+        <span>Joined</span>
+        January 2025
+      </div>
+
+      <div class="info-row">
+        <span>Email</span>
+        member@example.com
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <button
+        class="action secondary"
+        style="width:100%;"
+        onclick="showPage('settings')"
+      >
+        ⚙️ Settings
+      </button>
+
+      <button
+        class="action"
+        style="width:100%;"
+        onclick="logout()"
+      >
+        🚪 Log Out
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- SETTINGS -->
+  <section id="settings" class="page">
+
+    <div class="section-title">
+      <h2>⚙️ Settings</h2>
+    </div>
+
+    <div class="card">
+
+      <h3>Account</h3>
+
+      <div class="info-row">
+        <span>Notifications</span>
+        Enabled 🔔
+      </div>
+
+      <div class="info-row">
+        <span>Language</span>
+        English
+      </div>
+
+    </div>
+
+    <div class="card admin-box">
+
+      <h3>🛡️ Admin Area</h3>
+
+      <p>
+        Manage lodge members, announcements,
+        events and payments.
+      </p>
+
+      <button class="action" onclick="adminAccess()">
+        Open Admin Panel
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ADMIN -->
+  <section id="admin" class="page">
+
+    <div class="section-title">
+      <h2>🛡️ Admin Dashboard</h2>
+    </div>
+
+    <div class="stats">
+
+      <div class="stat">
+        <span>👥</span>
+        <strong>24</strong>
+        <span>Total Members</span>
+      </div>
+
+      <div class="stat">
+        <span>💰</span>
+        <strong>KSh 60K</strong>
+        <span>Dues Collected</span>
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <h3>Member Management</h3>
+
+      <p>
+        Add and manage lodge members.
+      </p>
+
+      <button class="action" onclick="openMemberModal()">
+        + Add Member
+      </button>
+
+    </div>
+
+    <div class="card">
+
+      <h3>Announcements</h3>
+
+      <p>
+        Publish an announcement for all members.
+      </p>
+
+      <button
+        class="action"
+        onclick="openAnnouncementModal()"
+      >
+        + Publish
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+
+    <button
+      class="nav-btn active"
+      data-page="dashboard"
+      onclick="showPage('dashboard',this)"
+    >
+      <span class="nav-icon">🏠</span>
+      Home
+    </button>
+
+    <button
+      class="nav-btn"
+      data-page="events"
+      onclick="showPage('events',this)"
+    >
+      <span class="nav-icon">📅</span>
+      Events
+    </button>
+
+    <button
+      class="nav-btn"
+      data-page="members"
+      onclick="showPage('members',this)"
+    >
+      <span class="nav-icon">👥</span>
+      Members
+    </button>
+
+    <button
+      class="nav-btn"
+      data-page="profile"
+      onclick="showPage('profile',this)"
+    >
+      <span class="nav-icon">👤</span>
+      Profile
+    </button>
+
+  </nav>
+
+</div>
+
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+
+<!-- EVENT MODAL -->
+<div id="eventModal" class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h2>Add Event</h2>
+      <button class="close" onclick="closeModal('eventModal')">
+        ✕
+      </button>
+    </div>
+
+    <div class="field">
+      <label>Event name</label>
+      <input id="eventName" placeholder="e.g. Lodge Meeting">
+    </div>
+
+    <div class="field">
+      <label>Date & time</label>
+      <input id="eventDate" placeholder="e.g. Friday • 7:00 PM">
+    </div>
+
+    <div class="field">
+      <label>Description</label>
+      <textarea id="eventDescription" rows="4"
+        placeholder="Event details"></textarea>
+    </div>
+
+    <button class="primary" onclick="addEvent()">
+      Save Event
+    </button>
+
   </div>
 
-  <div class="card">
-    <h3>📢 Latest Announcement</h3>
-    <p>Important information
+</div>
+
+
+<!-- ANNOUNCEMENT MODAL -->
+<div id="announcementModal" class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h2>New Announcement</h2>
+      <button class="close"
+        onclick="closeModal('announcementModal')">
+        ✕
+      </button>
+    </div>
+
+    <div class="field">
+      <label>Title</label>
+      <input id="announcementTitle"
+        placeholder="Announcement title">
+    </div>
+
+    <div class="field">
+      <label>Message</label>
+      <textarea id="announcementMessage"
+        rows="5"
+        placeholder="Write your announcement"></textarea>
+    </div>
+
+    <button class="primary" onclick="addAnnouncement()">
+      Publish Announcement
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- MEMBER MODAL -->
+<div id="memberModal" class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h2>Add Member</h2>
+      <button class="close"
+        onclick="closeModal('memberModal')">
+        ✕
+      </button>
+    </div>
+
+    <div class="field">
+      <label>Member name</label>
+      <input id="newMemberName"
+        placeholder="Full name">
+    </div>
+
+    <div class="field">
+      <label>Role</label>
+      <select id="newMemberRole">
+        <option>Member</option>
+        <option>Officer</option>
+        <option>Administrator</option>
+      </select>
+    </div>
+
+    <button class="primary" onclick="addMember()">
+      Add Member
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let events = JSON.parse(
+  localStorage.getItem("lodgeEvents")
+) || [
+  {
+    name:"Regular Lodge Meeting",
+    date:"Friday • 7:00 PM",
+    description:"Monthly lodge meeting for all members."
+  },
+  {
+    name:"Member Gathering",
+    date:"Saturday • 5:00 PM",
+    description:"Social gathering and member networking."
+  },
+  {
+    name:"Special Meeting",
+    date:"Next Month",
+    description:"Details will be announced soon."
+  }
+];
+
+
+let members = JSON.parse(
+  localStorage.getItem("lodgeMembers")
+) || [
+  {name:"John Kamau",role:"Member"},
+  {name:"David Mwangi",role:"Officer"},
+  {name:"Samuel Otieno",role:"Member"},
+  {name:"Michael Kariuki",role:"Administrator"},
+  {name:"Peter Maina",role:"Member"}
+];
+
+
+let announcements = JSON.parse(
+  localStorage.getItem("lodgeAnnouncements")
+) || [
+  {
+    title:"Welcome to the Lodge Portal",
+    message:"Members can now view meetings, announcements and lodge information."
+  },
+  {
+    title:"Monthly Meeting",
+    message:"The next regular lodge meeting will take place on Friday at 7:00 PM."
+  },
+  {
+    title:"Membership Dues",
+    message:"Please ensure your annual membership dues are up to date."
+  }
+];
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function login(){
+
+  const id =
+    document.getElementById("loginId").value.trim();
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  if(id === "MEM001" && password === "1234"){
+
+    localStorage.setItem("lodgeLoggedIn","true");
+
+    document.getElementById("loginScreen")
+      .classList.add("hidden");
+
+    document.getElementById("app")
+      .classList.remove("hidden");
+
+    loadUser();
+
+    showPage("dashboard");
+
+    toast("Welcome back 👋");
+
+  }else{
+
+    toast("Invalid Member ID or password");
+
+  }
+}
+
+
+function logout(){
+
+  localStorage.removeItem("lodgeLoggedIn");
+
+  document.getElementById("app")
+    .classList.add("hidden");
+
+  document.getElementById("loginScreen")
+    .classList.remove("hidden");
+
+  document.getElementById("loginPassword").value = "";
+
+  toast("You have been logged out");
+}
+
+
+/* =========================
+   USER
+========================= */
+
+function loadUser(){
+
+  document.getElementById("welcomeName")
+    .textContent = "Welcome, John 👋";
+
+  document.getElementById("profileName")
+    .textContent = "John Kamau";
+
+  document.getElementById("profileRole")
+    .textContent = "Active Member";
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+const titles = {
+
+  dashboard:"Dashboard",
+  events:"Events",
+  members:"Members",
+  announcements:"Announcements",
+  payments:"Payments",
+  notifications:"Notifications",
+  profile:"My Profile",
+  settings:"Settings",
+  admin:"Admin Dashboard"
+
+};
+
+
+function showPage(pageId,button){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(page=>{
+      page.classList.remove("active");
+    });
+
+  const page =
+    document.getElementById(pageId);
+
+  if(!page) return;
+
+  page.classList.add("active");
+
+  document.getElementById("pageTitle")
+    .textContent =
+    titles[pageId] || "Lodge Portal";
+
+
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(btn=>{
+      btn.classList.remove("active");
+
+      if(
+        btn.dataset.page === pageId
+      ){
+        btn.classList.add("active");
+      }
+    });
+
+
+  if(pageId === "events")
+    renderEvents();
+
+  if(pageId === "members")
+    renderMembers();
+
+  if(pageId === "announcements")
+    renderAnnouncements();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+/* =========================
+   EVENTS
+========================= */
+
+function renderEvents(){
+
+  const list =
+    document.getElementById("eventsList");
+
+  list.innerHTML = "";
+
+  events.forEach((event,index)=>{
+
+    list.innerHTML += `
+      <div class="card">
+
+        <div class="card-header">
+
+          <div>
+            <h3>📅 ${escapeHTML(event.name)}</h3>
+
+            <p class="date">
+              ${escapeHTML(event.date)}
+            </p>
+          </div>
+
+          <span class="status gold">
+            Upcoming
+          </span>
+
+        </div>
+
+        <p>
+          ${escapeHTML(event.description)}
+        </p>
+
+        <button class="action"
+          onclick="rsvp()">
+          RSVP
+        </button>
+
+        <button class="action secondary"
+          onclick="deleteEvent(${index})">
+          Delete
+        </button>
+
+      </div>
+    `;
+
+  });
+
+}
+
+
+function openEventModal(){
+
+  document
+    .getElementById("eventModal")
+    .classList.add("show");
+
+}
+
+
+function addEvent(){
+
+  const name =
+    document.getElementById("eventName")
+      .value.trim();
+
+  const date =
+    document.getElementById("eventDate")
+      .value.trim();
+
+  const description =
+    document.getElementById("eventDescription")
+      .value.trim();
+
+  if(!name || !date){
+
+    toast("Enter the event name and date");
+
+    return;
+  }
+
+  events.push({
+    name,
+    date,
+    description:
+      description || "Lodge event."
+  });
+
+  saveData();
+
+  closeModal("eventModal");
+
+  renderEvents();
+
+  updateCounts();
+
+  toast("Event added successfully");
+
+}
+
+
+function deleteEvent(index){
+
+  if(confirm("Delete this event?")){
+
+    events.splice(index,1);
+
+    saveData();
+
+    renderEvents();
+
+    updateCounts();
+
+    toast("Event deleted");
+
+  }
+
+}
+
+
+function rsvp(){
+
+  toast("RSVP recorded ✓");
+
+}
+
+
+/* =========================
+   MEMBERS
+========================= */
+
+function renderMembers(filter=""){
+
+  const list =
+    document.getElementById("membersList");
+
+  list.innerHTML = "";
+
+  const filtered =
+    members.filter(member =>
+      member.name
+        .toLowerCase()
+        .includes(filter.toLowerCase())
+    );
+
+
+  if(filtered.length === 0){
+
+    list.innerHTML =
+      `<div class="empty">
+        No members found.
+      </div>`;
+
+    return;
+  }
+
+
+  filtered.forEach(member=>{
+
+    list.innerHTML += `
+
+      <div class="card">
+
+        <div class="member">
+
+          <div class="avatar">
+            👤
+          </div>
+
+          <div class="member-info">
+
+            <strong>
+              ${escapeHTML(member.name)}
+            </strong>
+
+            <span>
+              ${escapeHTML(member.role)}
+            </span>
+
+          </div>
+
+          <span class="status green">
+            Active
+          </span>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+function searchMembers(){
+
+  const value =
+    document.getElementById("memberSearch")
+      .value;
+
+  renderMembers(value);
+
+}
+
+
+function openMemberModal(){
+
+  document
+    .getElementById("memberModal")
+    .classList.add("show");
+
+}
+
+
+function addMember(){
+
+  const name =
+    document.getElementById("newMemberName")
+      .value.trim();
+
+  const role =
+    document.getElementById("newMemberRole")
+      .value;
+
+  if(!name){
+
+    toast("Enter the member name");
+
+    return;
+  }
+
+  members.push({
+    name,
+    role
+  });
+
+  saveData();
+
+  closeModal("memberModal");
+
+  renderMembers();
+
+  updateCounts();
+
+  document.getElementById("newMemberName")
+    .value = "";
+
+  toast("Member added successfully");
+
+}
+
+
+/* =========================
+   ANNOUNCEMENTS
+========================= */
+
+function renderAnnouncements(){
+
+  const list =
+    document.getElementById("announcementsList");
+
+  list.innerHTML = "";
+
+  announcements.forEach((item,index)=>{
+
+    list.innerHTML += `
+
+      <div class="card">
+
+        <div class="card-header">
+
+          <h3>📢 ${escapeHTML(item.title)}</h3>
+
+          <span class="status gold">
+            New
+          </span>
+
+        </div>
+
+        <p>
+          ${escapeHTML(item.message)}
+        </p>
+
+        <button
+          class="action secondary"
+          onclick="deleteAnnouncement(${index})">
+          Delete
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+function openAnnouncementModal(){
+
+  document
+    .getElementById("announcementModal")
+    .classList.add("show");
+
+}
+
+
+function addAnnouncement(){
+
+  const title =
+    document.getElementById("announcementTitle")
+      .value.trim();
+
+  const message =
+    document.getElementById("announcementMessage")
+      .value.trim();
+
+  if(!title || !message){
+
+    toast("Complete all fields");
+
+    return;
+  }
+
+  announcements.unshift({
+    title,
+    message
+  });
+
+  saveData();
+
+  closeModal("announcementModal");
+
+  renderAnnouncements();
+
+  updateCounts();
+
+  document.getElementById("announcementTitle")
+    .value = "";
+
+  document.getElementById("announcementMessage")
+    .value = "";
+
+  toast("Announcement published 📢");
+
+}
+
+
+function deleteAnnouncement(index){
+
+  if(confirm("Delete this announcement?")){
+
+    announcements.splice(index,1);
+
+    saveData();
+
+    renderAnnouncements();
+
+    updateCounts();
+
+    toast("Announcement deleted");
+
+  }
+
+}
+
+
+/* =========================
+   PAYMENTS
+========================= */
+
+function makePayment(){
+
+  toast(
+    "Payment gateway will be connected in the next version."
+  );
+
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
+function adminAccess(){
+
+  const code =
+    prompt("Enter admin access code:");
+
+  if(code === "ADMIN123"){
+
+    showPage("admin");
+
+    toast("Admin access granted");
+
+  }else if(code !== null){
+
+    toast("Incorrect admin code");
+
+  }
+
+}
+
+
+/* =========================
+   NOTIFICATIONS
+========================= */
+
+function clearNotifications(){
+
+  document.getElementById("notificationsList")
+    .innerHTML = `
+      <div class="empty">
+        No notifications.
+      </div>
+    `;
+
+  document.getElementById("notificationBadge")
+    .classList.add("hidden");
+
+  toast("Notifications cleared");
+
+}
+
+
+/* =========================
+   MODALS
+========================= */
+
+function closeModal(id){
+
+  document
+    .getElementById(id)
+    .classList.remove("show");
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+function toast(message){
+
+  const box =
+    document.getElementById("toast");
+
+  box.textContent = message;
+
+  box.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(()=>{
+      box.classList.remove("show");
+    },2500);
+
+}
+
+
+/* =========================
+   STORAGE
+========================= */
+
+function saveData(){
+
+  localStorage.setItem(
+    "lodgeEvents",
+    JSON.stringify(events)
+  );
+
+  localStorage.setItem(
+    "lodgeMembers",
+    JSON.stringify(members)
+  );
+
+  localStorage.setItem(
+    "lodgeAnnouncements",
+    JSON.stringify(announcements)
+  );
+
+}
+
+
+function updateCounts(){
+
+  document.getElementById("memberCount")
+    .textContent = members.length;
+
+  document.getElementById("eventCount")
+    .textContent = events.length;
+
+  document.getElementById("announcementCount")
+    .textContent = announcements.length;
+
+}
+
+
+/* =========================
+   SECURITY HELPER
+========================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   STARTUP
+========================= */
+
+updateCounts();
+
+if(
+  localStorage.getItem("lodgeLoggedIn") === "true"
+){
+
+  document.getElementById("loginScreen")
+    .classList.add("hidden");
+
+  document.getElementById("app")
+    .classList.remove("hidden");
+
+  loadUser();
+
+}
+
+</script>
+
+</body>
+</html>
